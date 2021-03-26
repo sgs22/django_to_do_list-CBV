@@ -23,7 +23,7 @@ class OverrideLoginView(LoginView):
 class RegisterPage(FormView):
     template_name = 'base/register.html'
     form_class = UserCreationForm
-    redirect_authenitcated_user = True #not working hence def of get below
+    redirect_authenitcated_user = True #not working hence def: get 
     success_url = reverse_lazy('tasks')
 
     def form_valid(self, form):

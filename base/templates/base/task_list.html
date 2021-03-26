@@ -1,10 +1,15 @@
+{% extends 'base/main.html' %} {% block content %}
 
-{% if request.user.is_authenticated %}
-    <p>{{request.user}}</p>
-    <a href="{% url 'logout' %}">Logout</a>
-{% else %}
-<a href="{% url 'login' %}">Login</a>
-{% endif %}
+<div class="header-bar">
+    <div>
+        <h1>Hello {{request.user|title}}</h1>
+        <h3 style="margin:0">You have {{count}} task{{ count|pluralize:"s" }}</h3>
+    </div>
+
+    {% if request.user.is_authenticated %}
+    <a href="{% url 'logout' %}">Logout</a> {% else %}
+    <a href="{% url 'login' %}">Login</a> {% endif %}
+</div>
 
 <h1>My To Do List</h1>
 <a href="{% url 'task-create' %}">Add Task</a>
@@ -18,12 +23,10 @@
     <tr>
         <th>Item</th>
         <th></th>
-        <th></th>
     </tr>
      {% for task in tasks %}
     <tr>
         <td>{{task.title}}</td>
-        <td><a href="{% url 'task' task.id %}">View</a></td>
         <td><a href="{% url 'task-update' task.id %}">Edit</a></td>
         <td><a href="{% url 'task-delete' task.id %}">Delete</a></td>
     </tr>
@@ -31,4 +34,6 @@
         <h3>No Items in list</h3>
     {% endfor %}
  </table>
+
+ {% endblock content %}
 
