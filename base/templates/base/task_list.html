@@ -7,19 +7,48 @@
     </div>
 
     {% if request.user.is_authenticated %}
-    <a href="{% url 'logout' %}">Logout</a> {% else %}
-    <a href="{% url 'login' %}">Login</a> {% endif %}
+        <a href="{% url 'logout' %}" style="color: grey; font-size: large;">Logout</a> 
+    {% else %}
+        <a href="{% url 'login' %}" style="color: grey; font-size: large;">Login</a> 
+    {% endif %}
 </div>
 
-<h1>My To Do List</h1>
-<a href="{% url 'task-create' %}">Add Task</a>
+<div id="search-add-wrapper">
+    <form method="GET" style="margin-top: 20px;display: flex; padding-bottom: 10px;">
+        <input type="text" name="search-area" value="{{search_input}}">
+        <input class="btn btn-warning" type="submit" value="Search">
+    </form>
+    <a class="add-task"href="{% url 'task-create' %}"><i class="bi bi-plus-circle"></i></a>
+</div>
 
-<form method="GET">
-    <input type="text" name="search-area" value="{{search_input}}">
-    <input type="submit" value="Search">
-</form>
 
- <table>
+
+<div class="task-item-wrapper">
+    {% for task in tasks %}
+        <div class="task-wrapper">
+            {% if task.complete %}
+                <div class="task-title">
+                    <i class="bi bi-circle-fill pr-4" style="color: rgb(108, 194, 108);"></i>
+                    <i><s><a href="{% url 'task-update' task.id %}">{{task}}</a></s></i>
+                </div>
+                <a class="delete-link" href="{% url 'task-delete' task.id %}"><i class="bi bi-x-circle"></i></a>
+            {% else %}
+                <div class="task-title">
+                    <i class="bi bi-circle-fill pr-4" style="color: rgb(221, 220, 220);"></i>
+                    <a href="{% url 'task-update' task.id %}">{{task}}</a>
+                </div>
+                <a class="delete-link "href="{% url 'task-delete' task.id %}"><i class="bi bi-x-circle" ></i></a>
+            {% endif %}
+            
+            
+        </div>
+    {% empty %}
+    <h3>No items in list</h3>
+    {% endfor %}
+</div>
+
+
+ <!-- <table>
     <tr>
         <th>Item</th>
         <th></th>
@@ -33,7 +62,7 @@
     {% empty %}
         <h3>No Items in list</h3>
     {% endfor %}
- </table>
+ </table> -->
 
  {% endblock content %}
 
